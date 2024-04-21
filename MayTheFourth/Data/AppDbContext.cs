@@ -1,3 +1,4 @@
+>>>>>> feature/TASK1
 ﻿using MayTheFourth.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,4 +13,3 @@ namespace MayTheFourth.Data
             base.OnModelCreating(builder);
             BaseModel.Configure(builder);        }
     }
-}
