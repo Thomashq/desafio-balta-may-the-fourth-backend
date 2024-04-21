@@ -1,4 +1,3 @@
->>>>>> feature/TASK1
 ﻿using MayTheFourth.Models;
 using Microsoft.EntityFrameworkCore;
 
