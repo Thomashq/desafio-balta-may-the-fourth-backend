@@ -1,8 +1,15 @@
-﻿using System;
+>>>>>> feature/TASK1
+﻿using MayTheFourth.Models;
+using Microsoft.EntityFrameworkCore;
 
-public class Class1
+namespace MayTheFourth.Data
 {
-	public Class1()
-	{
-	}
-}
+    public class AppDbContext : DbContext
+    {
+        public DbSet<StarShip> StarShips{ get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            BaseModel.Configure(builder);        }
+    }
