@@ -1,3 +1,4 @@
+>>>>>> feature/TASK1
 ﻿using MayTheFourth.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,4 +20,3 @@ namespace MayTheFourth.Data
             optionsBuilder.UseSqlite("DataSource=app.db, Cache=Shared");
         }
     }
-}
