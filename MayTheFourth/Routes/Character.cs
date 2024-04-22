@@ -11,20 +11,20 @@ namespace MayTheFourth.Routes
             {
                 var character = context.Character.Find(id);
                 return character == null ? Results.NotFound() : Results.Ok(character);
-            });
+            }).WithTags("Characters").WithSummary("Get character by ID.").WithOpenApi();
 
             app.MapGet("/characters", (AppDbContext context) =>
             {
                 var characters = context.Character.ToList();
                 return Results.Ok(characters);
-            });
+            }).WithTags("Characters").WithSummary("Get all characters.").WithOpenApi();
 
             app.MapPost("/characters", (AppDbContext context, Character character) =>
             {
                 context.Character.Add(character);
                 context.SaveChanges();
                 return Results.Created(string.Empty, character);
-            });
+            }).WithTags("Characters").WithSummary("Create a character.").WithOpenApi();
 
             app.MapPut("/characters/{id}", (AppDbContext context, long id, Character character) =>
             {
@@ -45,7 +45,7 @@ namespace MayTheFourth.Routes
                 context.Character.Update(existingCharacter);
                 context.SaveChanges();
                 return Results.Ok(existingCharacter);
-            });
+            }).WithTags("Characters").WithSummary("Edit a character by ID.").WithOpenApi();
 
             app.MapDelete("/characters/{id}", (AppDbContext context, long id) =>
             {
@@ -57,7 +57,7 @@ namespace MayTheFourth.Routes
                 context.Character.Remove(character);
                 context.SaveChanges();
                 return Results.NoContent();
-            });
+            }).WithTags("Characters").WithSummary("Delete a character by ID.").WithOpenApi();
         }
     }
 }
