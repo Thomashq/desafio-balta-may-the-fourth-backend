@@ -20,6 +20,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapStarShipRoutes();
+app.MapPlanetRoutes();
+
 app.UseHttpsRedirection();
 
 app.Run();
