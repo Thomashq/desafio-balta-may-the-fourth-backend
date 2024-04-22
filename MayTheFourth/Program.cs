@@ -20,6 +20,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapStarShipRoutes();
+app.MapCharacterRoutes();
 app.UseHttpsRedirection();
 
 app.Run();
