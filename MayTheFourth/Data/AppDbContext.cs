@@ -6,6 +6,7 @@ namespace MayTheFourth.Data
     public class AppDbContext : DbContext
     {
         public DbSet<StarShip> StarShip { get; set; }
+        public DbSet<Planet> Planet { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
