@@ -20,8 +20,6 @@ app.db
 app.db-shm
 app.db-wal
 
-Migrations/
-
 # Mono auto generated files
 mono_crash.*
 
