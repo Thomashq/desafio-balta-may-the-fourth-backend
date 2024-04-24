@@ -1,6 +1,4 @@
-﻿using MayTheFourth.Utility.Requests;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MayTheFourth.Models;
 
@@ -28,19 +26,4 @@ public class Planet : BaseModel
 	public List<string> Characters { get; set; }
 	[Column("movies")]
 	public List<string> Movies { get; set; }
-
-	public void Update(PlanetRequest planet)
-	{
-		this.Name = planet.Name;
-		this.RotationPeriod = planet.RotationPeriod;
-		this.OrbitalPeriod = planet.OrbitalPeriod;
-		this.Diameter = planet.Diameter;
-		this.Climate = planet.Climate;
-		this.Gravity = planet.Gravity;	
-		this.Terrain = planet.Terrain;
-		this.SurfaceWater = planet.SurfaceWater;
-		this.Population = planet.Population;
-		this.Characters = planet.Characters;
-		this.Movies = planet.Movies;
-	}
 }

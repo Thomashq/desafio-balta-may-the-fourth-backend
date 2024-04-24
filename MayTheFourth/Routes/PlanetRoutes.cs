@@ -1,6 +1,8 @@
 ﻿using MayTheFourth.Data;
 using MayTheFourth.Models;
 using MayTheFourth.Utility.Requests;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace MayTheFourth.Routes;
 
@@ -47,14 +49,26 @@ public static class PlanetRoutes
 			return Results.Created($"/planets/{planet.Id}", planet.Id);
 		}).WithTags("Planets").WithSummary("Add new Planet.").WithOpenApi();
 
-		app.MapPut("/planets/{id}", (AppDbContext context, long id, PlanetRequest planetRequest) =>
+		app.MapPut("/planets/{id}", (AppDbContext context, long id, Planet updatedPlanet) =>
 		{
-			var planetToEdit = context.Planet.Find(id);
+			var planet = context.Planet.Find(id);
 
-			if (planetToEdit is null)
+			if (planet is null)
 				return Results.NotFound("Could not find the planet");
 
-			planetToEdit.Update(planetRequest);
+			foreach(var property in typeof(Planet).GetProperties())
+			{
+				if (property.GetCustomAttribute<KeyAttribute>() is not null)
+					continue;
+
+				var value = property.GetValue(updatedPlanet);
+				if (value is null)
+					continue;
+
+				property.SetValue(planet, value);
+			}
+
+			context.Planet.Update(planet);			
 
 			context.SaveChanges();
 
