@@ -17,6 +17,10 @@ namespace MayTheFourth.Routes
                 try
                 {
                     var totalCount = await context.StarShip.CountAsync();
+
+                    if (totalCount == 0)
+                        return Results.NotFound("No Starships found");
+
                     var starships = await context.StarShip
                     .AsNoTracking()
                     .Skip(skip)
@@ -134,7 +138,7 @@ namespace MayTheFourth.Routes
                 }
             }).WithTags("StarShips").WithSummary("Delete StarShip by Id").WithOpenApi();
 
-            app.MapDelete("/StarShips/MultiDelete", async (AppDbContext context, [FromBody] IEnumerable<long> ids) =>
+            app.MapDelete("/StarShips", async (AppDbContext context, [FromBody] IEnumerable<long> ids) =>
             {
                 try
                 {
@@ -148,7 +152,7 @@ namespace MayTheFourth.Routes
                     context.StarShip.RemoveRange(starShipsToDelete);
                     await context.SaveChangesAsync();
 
-                    return Results.Ok( new 
+                    return Results.Ok(new 
                     {
                         message = "List of StarShips successfully deleted" 
                     });

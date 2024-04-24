@@ -98,19 +98,6 @@ namespace MayTheFourth.Migrations
                 type: "INTEGER",
                 nullable: false,
                 defaultValue: 0);
-
-            migrationBuilder.CreateTable(
-                name: "Movie",
-                columns: table => new
-                {
-                    MovieId = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    name = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Movie", x => x.MovieId);
-                });
         }
 
         /// <inheritdoc />
