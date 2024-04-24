@@ -21,6 +21,8 @@ if (app.Environment.IsDevelopment())
 
 app.MapStarShipRoutes();
 app.MapCharacterRoutes();
+app.MapPlanetRoutes();
+
 app.UseHttpsRedirection();
 
 app.Run();

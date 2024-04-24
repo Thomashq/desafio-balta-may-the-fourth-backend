@@ -2,6 +2,7 @@
 using MayTheFourth.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,50 +10,20 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MayTheFourth.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240422185513_UpdateOnPlanetModel")]
+    partial class UpdateOnPlanetModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
 
-
-            modelBuilder.Entity("MayTheFourth.Models.Character", b =>
-
             modelBuilder.Entity("MayTheFourth.Models.Planet", b =>
-
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
-
-                        .HasColumnName("CharacterId");
-
-                    b.Property<string>("BirthYear")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("BirthYear");
-
-                    b.Property<string>("EyeColor")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("EyeColor");
-
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Gender");
-
-                    b.Property<string>("HairColor")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("HairColor");
-
-                    b.Property<string>("Height")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("height");
-
                         .HasColumnName("PlanetId");
 
                     b.Property<string>("Characters")
@@ -75,40 +46,15 @@ namespace MayTheFourth.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("gravity");
 
-
                     b.Property<string>("Movies")
                         .IsRequired()
                         .HasColumnType("TEXT")
-
-                        .HasColumnName("Movies");
-
                         .HasColumnName("movies");
-
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("name");
-
-
-                    b.Property<string>("Planet")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Planet");
-
-                    b.Property<string>("SkinColor")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("SkinColor");
-
-                    b.Property<string>("Weight")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Weight");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Character");
 
                     b.Property<string>("OrbitalPeriod")
                         .IsRequired()

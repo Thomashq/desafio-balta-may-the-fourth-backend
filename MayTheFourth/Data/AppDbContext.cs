@@ -7,6 +7,7 @@ namespace MayTheFourth.Data
     {
         public DbSet<StarShip> StarShip { get; set; }
         public DbSet<Character> Character { get; set; }
+        public DbSet<Planet> Planet { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
