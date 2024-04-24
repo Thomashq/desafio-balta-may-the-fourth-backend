@@ -1,6 +1,6 @@
 ﻿using MayTheFourth.Data;
 using MayTheFourth.Models;
-using MayTheFourth.Routes.Requests;
+using MayTheFourth.Utility.Requests;
 
 namespace MayTheFourth.Routes;
 

@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using MayTheFourth.Models;
 
-namespace MayTheFourth.Routes.Requests;
+namespace MayTheFourth.Utility.Response;
 
-public class PlanetRequest
+public class PlanetResponse : BaseModel
 {
     public string Name { get; set; }
     public string RotationPeriod { get; set; }

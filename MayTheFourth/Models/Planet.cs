@@ -1,4 +1,4 @@
-﻿using MayTheFourth.Routes.Requests;
+﻿using MayTheFourth.Utility.Requests;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
