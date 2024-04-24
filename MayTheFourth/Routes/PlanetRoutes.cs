@@ -1,8 +1,8 @@
 ﻿using MayTheFourth.Data;
 using MayTheFourth.Models;
 using MayTheFourth.Utility.Requests;
-using Microsoft.AspNetCore.Mvc;
-using System.Data.Entity;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace MayTheFourth.Routes;
 
@@ -10,9 +10,9 @@ public static class PlanetRoutes
 {
 	public static void MapPlanetRoutes(this WebApplication app)
 	{
-		app.MapGet("/planets/{id:long}", async (AppDbContext context, long id) =>
+		app.MapGet("/planets/{id}", (AppDbContext context, long id) =>
 		{
-			var planet = await context.Planet.FindAsync(id);
+			var planet = context.Planet.Find(id);
 
 			if (planet is null)
 				return Results.NotFound("Planet could not be found.");
@@ -20,27 +20,14 @@ public static class PlanetRoutes
 			return Results.Ok(planet);
 		}).WithTags("Planets").WithSummary("Get planet by ID.").WithOpenApi();
 
-		app.MapGet("/planets/{skip:int}/{take:int}", async (AppDbContext context, int skip, int take) =>
+
+		app.MapGet("/planets/", (AppDbContext context) =>
 		{
-			var totalCount = await context.Planet.CountAsync();
-
-			var planets = await context.Planet
-			.AsNoTracking()
-			.Skip(skip)
-			.Take(take)
-			.ToListAsync();
-
-			return Results.Ok(new
-			{
-				totalCount,
-				skip,
-				take,
-				data = planets
-			});
-
+			var planets = context.Planet.ToList();
+			return Results.Ok(planets);
 		}).WithTags("Planets").WithSummary("Get all planets.").WithOpenApi();
 
-		app.MapPost("/planets/", async (AppDbContext context, PlanetRequest planetRequest) =>
+		app.MapPost("/planets/", (AppDbContext context, PlanetRequest planetRequest) =>
 		{
 			var planet = new Planet
 			{
@@ -57,56 +44,47 @@ public static class PlanetRoutes
 				Terrain = planetRequest.Terrain
 			};
 
-			await context.Planet.AddAsync(planet);
-
-			await context.SaveChangesAsync();
-
+			context.Planet.Add(planet);
+			context.SaveChanges();
 			return Results.Created($"/planets/{planet.Id}", planet.Id);
 		}).WithTags("Planets").WithSummary("Add new Planet.").WithOpenApi();
 
-		app.MapPut("/planets/{id:long}", async (AppDbContext context, long id, PlanetRequest planetRequest) =>
+		app.MapPut("/planets/{id}", (AppDbContext context, long id, Planet updatedPlanet) =>
 		{
-			var planetToEdit = await context.Planet.FindAsync(id);
+			var planet = context.Planet.Find(id);
 
-			if (planetToEdit is null)
+			if (planet is null)
 				return Results.NotFound("Could not find the planet");
 
-			planetToEdit.Update(planetRequest);
+			foreach(var property in typeof(Planet).GetProperties())
+			{
+				if (property.GetCustomAttribute<KeyAttribute>() is not null)
+					continue;
 
-			await context.SaveChangesAsync();
+				var value = property.GetValue(updatedPlanet);
+				if (value is null)
+					continue;
+
+				property.SetValue(planet, value);
+			}
+
+			context.Planet.Update(planet);			
+
+			context.SaveChanges();
 
 			return Results.Ok("Planet edited successfully");
 		}).WithTags("Planets").WithSummary("Edit existing Planet.").WithOpenApi();
 
-		app.MapDelete("/planets/", async (AppDbContext context, long id) =>
+		app.MapDelete("/planets/", (AppDbContext context, long id) =>
 		{
-			var planetToDelete = await context.Planet.FindAsync(id);
+			var planetToDelete = context.Planet.Find(id);
 
 			if (planetToDelete is null)
 				return Results.NotFound($"Planet with id {id} does not exists");
 
 			context.Planet.Remove(planetToDelete);
-
-			await context.SaveChangesAsync();
-
+			context.SaveChanges();
 			return Results.Ok("Planet successfully deleted");
 		}).WithTags("Planets").WithSummary("Delete Planet by ID.").WithOpenApi();
-
-		app.MapDelete("/planets/multiDelete", async (AppDbContext context, [FromBody]IEnumerable<long> ids) =>
-		{
-			var planetsToDelete = await context.Planet
-			.Where(s => ids.Contains(s.Id))
-			.ToListAsync();
-
-			if (planetsToDelete.Count == 0)
-				return Results.NotFound("Could not find the planets");
-
-			context.Planet.RemoveRange(planetsToDelete);
-
-			await context.SaveChangesAsync();
-
-			return Results.Ok("Successfully deleted list of planets");
-
-		}).WithTags("Planets").WithSummary("Delete Multiple Planets").WithOpenApi();
 	}
 }
