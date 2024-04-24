@@ -43,5 +43,8 @@ namespace MayTheFourth.Models
         [Column("class")]
         public string Class { get; set; }
 
+        [Column("movies")]
+        public List<string> Movies { get; set; }
+
     }
 }
