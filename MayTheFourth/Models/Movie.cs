@@ -4,38 +4,38 @@ namespace MayTheFourth.Models
 {
     public class Movie : BaseModel
     {
-        [Column("Title")]
+        [Column("title")]
         public string? Title { get; set; }
 
-        [Column("Episode")]
+        [Column("episode")]
         public int Episode { get; set; }
 
-        [Column("OpeningCrawl")]
+        [Column("openingCrawl")]
         public string? OpeningCrawl { get; set; }
 
-        [Column("Director")]
+        [Column("director")]
         public string? Director { get; set; }
 
-        [Column("Producer")]
+        [Column("producer")]
         public string? Producer { get; set; }
 
-        [Column("ReleaseDate")]
+        [Column("releaseDate")]
         public DateTime ReleaseDate { get; set; }
 
-        [Column("Characters")]
-        //[ForeignKey("CharacterId")]
+        [Column("characters")]
+        //[ForeignKey("characterId")]
         public List<string>? Characters { get; set; }
 
-        [Column("Planets")]
-        //[ForeignKey("PlanetId")]
+        [Column("planets")]
+        //[ForeignKey("planetId")]
         public List<string>? Planets { get; set; }
 
-        [Column("Vehicles")]
-        //[ForeignKey("VehicleId")]
+        [Column("vehicles")]
+        //[ForeignKey("vehicleId")]
         public List<string>? Vehicles { get; set; }
 
-        [Column("StarChips")]
-        //[ForeignKey("StarChipId")]
+        [Column("starChips")]
+        //[ForeignKey("starChipId")]
         public List<string>? StarChips { get; set; }
 
     }
