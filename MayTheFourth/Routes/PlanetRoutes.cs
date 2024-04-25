@@ -2,8 +2,8 @@
 using MayTheFourth.Models;
 using MayTheFourth.Utility.Requests;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
 using System.Reflection;
 
 namespace MayTheFourth.Routes;
