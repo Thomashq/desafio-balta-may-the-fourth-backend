@@ -1,3 +1,4 @@
+using MayTheFourth;
 using MayTheFourth.Data;
 using MayTheFourth.Routes;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,23 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>();
 
+builder.Services.AddCors(options =>
+    options.AddPolicy(
+        Configuration.CorsPolicyName,
+        policy =>
+            policy.WithOrigins([
+                Configuration.BackendUrl,
+                Configuration.FrontendUrl
+            ])
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()
+        )
+);
+
 var app = builder.Build();
+
+app.UseCors(Configuration.CorsPolicyName);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
