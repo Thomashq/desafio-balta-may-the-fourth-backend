@@ -1,7 +1,6 @@
 using MayTheFourth;
 using MayTheFourth.Data;
 using MayTheFourth.Routes;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,13 +31,14 @@ app.UseCors(Configuration.CorsPolicyName);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+  app.UseSwagger();
+  app.UseSwaggerUI();
 }
 
 app.MapStarShipRoutes();
 app.MapCharacterRoutes();
 app.MapPlanetRoutes();
+app.MapVehicleRoutes();
 
 app.UseHttpsRedirection();
 
