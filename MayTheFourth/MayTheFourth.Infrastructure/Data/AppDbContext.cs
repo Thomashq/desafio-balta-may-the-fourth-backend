@@ -10,6 +10,8 @@ namespace MayTheFourth.Data
         public DbSet<Planet> Planet { get; set; }
         public DbSet<Movie> Movie { get; set; }
 
+        public DbSet<Vehicle> Vehicle { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
