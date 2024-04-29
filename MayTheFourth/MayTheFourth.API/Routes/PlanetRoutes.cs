@@ -1,6 +1,7 @@
 ﻿using MayTheFourth.Data;
+using MayTheFourth.Domain.Responses;
 using MayTheFourth.Models;
-using MayTheFourth.Utility.Requests;
+using MayTheFourth.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -45,12 +46,12 @@ public static class PlanetRoutes
 				.Take(take)
 				.ToListAsync();
 
-				return Results.Ok(new
+				return Results.Ok(new GetPlanetWithPaginationResponse()
 				{
-					totalCount,
-					skip,
-					take,
-					data = planets
+					totalCount = totalCount,
+					skip = skip,
+					take = take,
+					data = planets.ToList()
 				});
 			}
 			catch(Exception ex)

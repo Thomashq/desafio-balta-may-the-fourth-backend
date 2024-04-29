@@ -31,7 +31,24 @@ Desenvolvimento de uma API completa, fornecendo recursos como criação, leitura
 * Muito conhecimento técnico
 
 ## 🧪 Como testar o projeto
-[DESCREVER COMO EXECUTAR O PROJETO]
+
+### Clonando o repositório
+```bash
+  git clone https://github.com/Thomashq/desafio-balta-may-the-fourth-backend.git
+```
+
+### Executando as Migrations (a partir do repositório)
+```bash
+  cd MayTheFourth
+  dotnet ef database update --verbose --project MayTheFourth.Infrastructure --startup-project MayTheFourth.API
+```
+
+### Rodando a aplicação
+```bash
+  cd MayTheFourth.API
+  dotnet run
+```
+
 
 # 💜 Participe
 Quer participar dos próximos desafios? Junte-se a [maior comunidade .NET do Brasil 🇧🇷 💜](https://balta.io/discord)

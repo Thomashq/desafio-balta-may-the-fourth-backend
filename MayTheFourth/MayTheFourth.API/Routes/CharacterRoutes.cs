@@ -51,7 +51,7 @@ namespace MayTheFourth.Routes
                         Results.NotFound($"Character with id {id} does not exist");
                     }
 
-                    Results.Ok(character);
+                    return Results.Ok(character);
                 }
                 catch (Exception ex)
                 {
