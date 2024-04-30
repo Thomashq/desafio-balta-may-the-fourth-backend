@@ -23,20 +23,16 @@ namespace MayTheFourth.Models
         public DateTime ReleaseDate { get; set; }
 
         [Column("characters")]
-        //[ForeignKey("characterId")]
         public List<string>? Characters { get; set; }
 
         [Column("planets")]
-        //[ForeignKey("planetId")]
-        public List<string>? Planets { get; set; }
+        public List<string> Planets { get; set; }
 
         [Column("vehicles")]
-        //[ForeignKey("vehicleId")]
-        public List<string>? Vehicles { get; set; }
+        public List<string> Vehicles { get; set; }
 
-        [Column("starChips")]
-        //[ForeignKey("starChipId")]
-        public List<string>? StarChips { get; set; }
+        [Column("starShips")]
+        public List<string> StarShips { get; set; }
 
     }
 }

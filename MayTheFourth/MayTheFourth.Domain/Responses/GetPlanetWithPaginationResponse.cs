@@ -1,4 +1,5 @@
 ﻿using MayTheFourth.Models;
+using Newtonsoft.Json;
 
 namespace MayTheFourth.Domain.Responses;
 public class GetPlanetWithPaginationResponse

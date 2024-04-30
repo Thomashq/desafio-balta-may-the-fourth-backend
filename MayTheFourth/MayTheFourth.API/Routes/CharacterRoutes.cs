@@ -44,7 +44,7 @@ namespace MayTheFourth.Routes
             {
                 try
                 {
-                    var character = await context.Character.FindAsync(id);
+                    Character  character = await context.Character.FindAsync(id);
 
                     if (character == null)
                     {

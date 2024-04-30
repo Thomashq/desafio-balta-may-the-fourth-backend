@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace MayTheFourth.Migrations
+namespace MayTheFourth.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -88,47 +88,46 @@ namespace MayTheFourth.Migrations
 
                     b.Property<string>("Characters")
                         .HasColumnType("TEXT")
-                        .HasColumnName("Characters");
+                        .HasColumnName("characters");
 
                     b.Property<string>("Director")
-                        .IsRequired()
                         .HasColumnType("TEXT")
-                        .HasColumnName("Director");
+                        .HasColumnName("director");
 
                     b.Property<int>("Episode")
                         .HasColumnType("INTEGER")
-                        .HasColumnName("Episode");
+                        .HasColumnName("episode");
 
                     b.Property<string>("OpeningCrawl")
-                        .IsRequired()
                         .HasColumnType("TEXT")
-                        .HasColumnName("OpeningCrawl");
+                        .HasColumnName("openingCrawl");
 
                     b.Property<string>("Planets")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Planets");
-
-                    b.Property<string>("Producer")
                         .IsRequired()
                         .HasColumnType("TEXT")
-                        .HasColumnName("Producer");
+                        .HasColumnName("planets");
+
+                    b.Property<string>("Producer")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("producer");
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("TEXT")
-                        .HasColumnName("ReleaseDate");
+                        .HasColumnName("releaseDate");
 
-                    b.Property<string>("StarChips")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("StarChips");
-
-                    b.Property<string>("Title")
+                    b.Property<string>("StarShips")
                         .IsRequired()
                         .HasColumnType("TEXT")
-                        .HasColumnName("Title");
+                        .HasColumnName("starShips");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("title");
 
                     b.Property<string>("Vehicles")
+                        .IsRequired()
                         .HasColumnType("TEXT")
-                        .HasColumnName("Vehicles");
+                        .HasColumnName("vehicles");
 
                     b.HasKey("Id");
 
@@ -260,7 +259,7 @@ namespace MayTheFourth.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("model");
 
-                    b.Property<string>("Movies")
+                    b.Property<string>("MoviesIn")
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("movies");

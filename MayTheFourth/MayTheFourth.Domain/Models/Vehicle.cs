@@ -2,7 +2,7 @@
 
 namespace MayTheFourth.Models
 {
-  public class Vehicle : BaseModel
+    public class Vehicle : BaseModel
   {
     [Column("cargoCapacity")]
     public string CargoCapacity { get; set; }

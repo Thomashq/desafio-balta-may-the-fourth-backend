@@ -1,4 +1,6 @@
 ﻿using MayTheFourth.Data;
+using MayTheFourth.Domain.Responses;
+using MayTheFourth.Infrastructure.Data.Mapping;
 using MayTheFourth.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,27 +14,56 @@ namespace MayTheFourth.Routes
     {
         public static void MapStarShipRoutes(this WebApplication app)
         {
+            app.MapGet("/StarShips/{id:long}", async (AppDbContext context, long id) =>
+            {
+                try
+                {
+                    StarShipMappingService mappingService = new StarShipMappingService();
+                    var starShip = await context.StarShip.FindAsync(id);
+
+                    if (starShip == null)
+                        return Results.NotFound($"StarShip with id {id} does not exist");
+
+                    var movies = await context.Movie.ToListAsync();
+                    var response = mappingService.MapStarShipToResponse(starShip, movies);
+
+                    return Results.Ok(new
+                    {
+                        data = response
+                    });
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("The following error has ocurred: " + ex.Message);
+                }
+            }).WithTags("StarShips").WithSummary("Get StarShip by id").WithOpenApi();
+
             app.MapGet("/StarShips/{skip:int}/{take:int}", async (AppDbContext context, int skip, int take) =>
             {
                 try
                 {
+                    StarShipMappingService mappingService = new StarShipMappingService();
+
                     var totalCount = await context.StarShip.CountAsync();
 
                     if (totalCount == 0)
                         return Results.NotFound("No Starships found");
 
                     var starships = await context.StarShip
-                    .AsNoTracking()
-                    .Skip(skip)
-                    .Take(take)
-                    .ToListAsync();
+                        .AsNoTracking()
+                        .Skip(skip)
+                        .Take(take)
+                        .ToListAsync();
+
+                    var movies = await context.Movie.ToListAsync();
+                    var responses = starships.Select(starShip => mappingService.MapStarShipToResponse(starShip, movies));
 
                     return Results.Ok(new
                     {
                         totalCount,
                         skip,
                         take,
-                        data = starships
+                        data = responses
                     });
                 }
                 catch (Exception ex)
@@ -41,24 +72,6 @@ namespace MayTheFourth.Routes
                 }
             }).WithTags("StarShips").WithSummary("Get list of all starships").WithOpenApi();
 
-            app.MapGet("/StarShips/{id:long}", async (AppDbContext context, long id) =>
-            {
-                try
-                {
-                    var starShip = await context.StarShip.FindAsync(id);
-                    if (starShip == null)
-                        return Results.NotFound($"StarShip with id {id} does not exist");
-
-                    return Results.Ok(new
-                    {
-                        data = starShip
-                    });
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("The following error has ocurred: " + ex.Message);
-                }
-            }).WithTags("StarShips").WithSummary("Get StarShip by id").WithOpenApi();
 
             app.MapPost("/StarShips", async (AppDbContext context, StarShip starship) =>
             {

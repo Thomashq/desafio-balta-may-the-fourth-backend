@@ -1,7 +1,6 @@
 ﻿using MayTheFourth.Data;
 using MayTheFourth.Domain.Responses;
 using MayTheFourth.Models;
-using MayTheFourth.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -60,25 +59,10 @@ public static class PlanetRoutes
 			}
 		}).WithTags("Planets").WithSummary("Get all planets.").WithOpenApi();
 
-		app.MapPost("/Planets", async (AppDbContext context, PlanetRequest planetRequest) =>
+		app.MapPost("/Planets", async (AppDbContext context,  Planet planet) =>
 		{
 			try
 			{
-				var planet = new Planet
-				{
-					Name = planetRequest.Name,
-					Movies = planetRequest.Movies,
-					Characters = planetRequest.Characters,
-					Population = planetRequest.Population,
-					Climate = planetRequest.Climate,
-					Diameter = planetRequest.Diameter,
-					Gravity = planetRequest.Gravity,
-					OrbitalPeriod = planetRequest.OrbitalPeriod,
-					RotationPeriod = planetRequest.RotationPeriod,
-					SurfaceWater = planetRequest.SurfaceWater,
-					Terrain = planetRequest.Terrain
-				};
-
 				await context.Planet.AddAsync(planet);
 
 				await context.SaveChangesAsync();

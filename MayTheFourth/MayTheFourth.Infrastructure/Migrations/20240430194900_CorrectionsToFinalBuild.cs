@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace MayTheFourth.Migrations
+namespace MayTheFourth.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class TASK5 : Migration
+    public partial class CorrectionsToFinalBuild : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

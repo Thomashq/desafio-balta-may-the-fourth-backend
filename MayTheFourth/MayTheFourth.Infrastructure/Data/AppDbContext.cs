@@ -9,7 +9,6 @@ namespace MayTheFourth.Data
         public DbSet<Character> Character { get; set; }
         public DbSet<Planet> Planet { get; set; }
         public DbSet<Movie> Movie { get; set; }
-
         public DbSet<Vehicle> Vehicle { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
@@ -24,6 +23,7 @@ namespace MayTheFourth.Data
                     entity.Property<long>("Id").HasColumnName($"{entityType.ClrType.Name}Id");
                 }
             }
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

@@ -33,11 +33,15 @@ public static class MovieRoutes
 
             }).WithTags("Movies").WithSummary("Get Movie by Id").WithOpenApi();
 
-        app.MapGet("/Movies", async (AppDbContext context) =>
+        app.MapGet("/Movies/{skip:int}/{take:int}", async (AppDbContext context, int skip, int take) =>
         {
             try
             {
-                var movies = await context.Movie.AsNoTracking().ToListAsync();
+                var movies = await context.Movie
+                .AsNoTracking()
+                .Skip(skip)
+                .Take(take)
+                .ToListAsync();
 
                 if (movies == null || movies.Count == 0)
                 {
@@ -65,7 +69,6 @@ public static class MovieRoutes
             }
             catch (System.Exception ex)
             {
-
                 throw new Exception("The following error has ocurred: " + ex.Message);
             }
 
@@ -90,7 +93,7 @@ public static class MovieRoutes
                 movieToUpdate.Characters = movieUpdated.Characters;
                 movieToUpdate.Planets = movieUpdated.Planets;
                 movieToUpdate.Vehicles = movieUpdated.Vehicles;
-                movieToUpdate.StarChips = movieUpdated.StarChips;
+                movieToUpdate.StarShips = movieUpdated.StarShips;
 
                 context.Update(movieToUpdate);
 
