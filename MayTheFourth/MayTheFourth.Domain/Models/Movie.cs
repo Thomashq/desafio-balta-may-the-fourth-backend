@@ -23,16 +23,15 @@ namespace MayTheFourth.Models
         public DateTime ReleaseDate { get; set; }
 
         [Column("characters")]
-        public List<string>? Characters { get; set; }
+        public List<long>? Characters { get; set; }
 
         [Column("planets")]
-        public List<string> Planets { get; set; }
+        public List<long> Planets { get; set; }
 
         [Column("vehicles")]
-        public List<string> Vehicles { get; set; }
+        public List<long> Vehicles { get; set; }
 
         [Column("starShips")]
-        public List<string> StarShips { get; set; }
-
+        public List<long> StarShips { get; set; }
     }
 }

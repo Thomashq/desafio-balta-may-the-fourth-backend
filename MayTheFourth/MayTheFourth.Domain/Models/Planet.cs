@@ -32,8 +32,8 @@ public class Planet : BaseModel
 	public string Population { get; set; }
 
     [Column("characters")]
-	public List<string> Characters { get; set; }
+	public List<long> Characters { get; set; }
 
     [Column("movies")]
-	public List<string> Movies { get; set; }
+	public List<long> Movies { get; set; }
 }

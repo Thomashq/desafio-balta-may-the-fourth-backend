@@ -1,4 +1,5 @@
 ﻿using MayTheFourth.Data;
+using MayTheFourth.Infrastructure.Data.Mapping;
 using MayTheFourth.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,8 @@ namespace MayTheFourth.Routes
             {
                 try
                 {
+                    MappingServices mappingService = new();
+
                     var totalCount = await context.Character.CountAsync();
 
                     if (totalCount == 0)
@@ -26,12 +29,17 @@ namespace MayTheFourth.Routes
                     .Take(take)
                     .ToListAsync();
 
+                    var planets = await context.Planet.ToListAsync();
+                    var movies = await context.Movie.ToListAsync();
+
+                    var responses = characters.Select(character => mappingService.MapCharacterToResponse(character, movies, planets));
+
                     return Results.Ok(new 
                     { 
                         totalCount,
                         skip,
                         take,
-                        data = characters
+                        data = responses
                     });
                 }
                 catch (Exception ex)
@@ -44,13 +52,18 @@ namespace MayTheFourth.Routes
             {
                 try
                 {
+                    MappingServices mappingsService = new();
+
                     Character  character = await context.Character.FindAsync(id);
 
                     if (character == null)
                     {
                         Results.NotFound($"Character with id {id} does not exist");
                     }
+                    var planets = await context.Planet.ToListAsync();
+                    var movies = await context.Movie.ToListAsync();
 
+                    var response = mappingsService.MapCharacterToResponse(character, movies, planets);
                     return Results.Ok(character);
                 }
                 catch (Exception ex)

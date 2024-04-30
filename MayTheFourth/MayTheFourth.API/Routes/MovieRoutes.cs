@@ -1,6 +1,7 @@
 
 using System.Linq;
 using MayTheFourth.Data;
+using MayTheFourth.Infrastructure.Data.Mapping;
 using MayTheFourth.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,15 +17,21 @@ public static class MovieRoutes
             {
                 try
                 {
-                    if (id <= 0)
-                        return Results.BadRequest("Invalid movie id");
+                    MappingServices mappingService = new();
 
                     var movie = await context.Movie.FindAsync(id);
 
                     if (movie == null)
                         return Results.NotFound($"Movie {id} not found");
 
-                    return Results.Ok(movie);
+                    var characters = await context.Character.ToListAsync();
+                    var planets = await context.Planet.ToListAsync();
+                    var vehicles = await context.Vehicle.ToListAsync();
+                    var starShips = await context.StarShip.ToListAsync();
+
+                    var response = mappingService.MapMovieToResponse(movie, characters, planets, vehicles, starShips);
+                    
+                    return Results.Ok(response);
                 }
                 catch (Exception ex)
                 {
@@ -37,6 +44,10 @@ public static class MovieRoutes
         {
             try
             {
+                MappingServices mappingService = new();
+
+                var totalCount = await context.Movie.CountAsync();
+
                 var movies = await context.Movie
                 .AsNoTracking()
                 .Skip(skip)
@@ -48,7 +59,20 @@ public static class MovieRoutes
                     return Results.NotFound("no movies found.");
                 }
 
-                return Results.Ok(movies);
+                var characters = await context.Character.ToListAsync();
+                var planets = await context.Planet.ToListAsync();
+                var vehicles = await context.Vehicle.ToListAsync();
+                var starShips = await context.StarShip.ToListAsync();
+
+                var responses = movies.Select(movie => mappingService.MapMovieToResponse(movie, characters, planets, vehicles, starShips));
+              
+                return Results.Ok(new
+                {
+                    totalCount,
+                    skip,
+                    take,
+                    data = responses
+                });
             }
 
             catch (System.Exception ex)

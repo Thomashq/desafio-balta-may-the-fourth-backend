@@ -46,6 +46,6 @@ namespace MayTheFourth.Models
         public string Class { get; set; }
 
         [Column("movies")]
-        public List<long> MoviesIn { get; set; }
+        public List<long> Movies { get; set; }
     }
 }

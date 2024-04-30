@@ -18,7 +18,7 @@ namespace MayTheFourth.Routes
             {
                 try
                 {
-                    StarShipMappingService mappingService = new StarShipMappingService();
+                    MappingServices mappingService = new();
                     var starShip = await context.StarShip.FindAsync(id);
 
                     if (starShip == null)
@@ -42,7 +42,7 @@ namespace MayTheFourth.Routes
             {
                 try
                 {
-                    StarShipMappingService mappingService = new StarShipMappingService();
+                    MappingServices mappingService = new();
 
                     var totalCount = await context.StarShip.CountAsync();
 

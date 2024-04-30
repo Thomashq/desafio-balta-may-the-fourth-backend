@@ -29,9 +29,9 @@ namespace MayTheFourth.Models
         public string Gender { get; set; }
 
         [Column("planet")]
-        public List<string> Planet { get; set; }
+        public List<long> Planet { get; set; }
 
         [Column("movies")]
-        public List<string> Movies { get; set; }
+        public List<long> Movies { get; set; }
     }
 }
