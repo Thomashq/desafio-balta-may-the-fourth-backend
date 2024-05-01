@@ -6,25 +6,32 @@ namespace MayTheFourth.Models
     {
         [Column("name")]
         public string Name { get; set; }
+
         [Column("height")]
         public string Height { get; set; }
+
         [Column("weight")]
         public string Weight { get; set; }
+
         [Column("hairColor")]
         public string HairColor { get; set; }
+
         [Column("skinColor")]
         public string SkinColor { get; set; }
+
         [Column("eyeColor")]
         public string EyeColor { get; set; }
+
         [Column("birthYear")]
         public string BirthYear { get; set; }
+
         [Column("gender")]
         public string Gender { get; set; }
-        //[ForeignKey("Planet_Id")]
+
         [Column("planet")]
-        public string Planet { get; set; }
-        //[ForeignKey("Movies_Id")]
+        public List<long> Planet { get; set; }
+
         [Column("movies")]
-        public List<string> Movies { get; set; }
+        public List<long> Movies { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 
 using System.Linq;
 using MayTheFourth.Data;
+using MayTheFourth.Infrastructure.Data.Mapping;
 using MayTheFourth.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,15 +17,21 @@ public static class MovieRoutes
             {
                 try
                 {
-                    if (id <= 0)
-                        return Results.BadRequest("Invalid movie id");
+                    MappingServices mappingService = new();
 
                     var movie = await context.Movie.FindAsync(id);
 
                     if (movie == null)
                         return Results.NotFound($"Movie {id} not found");
 
-                    return Results.Ok(movie);
+                    var characters = await context.Character.ToListAsync();
+                    var planets = await context.Planet.ToListAsync();
+                    var vehicles = await context.Vehicle.ToListAsync();
+                    var starShips = await context.StarShip.ToListAsync();
+
+                    var response = mappingService.MapMovieToResponse(movie, characters, planets, vehicles, starShips);
+                    
+                    return Results.Ok(response);
                 }
                 catch (Exception ex)
                 {
@@ -33,18 +40,39 @@ public static class MovieRoutes
 
             }).WithTags("Movies").WithSummary("Get Movie by Id").WithOpenApi();
 
-        app.MapGet("/Movies", async (AppDbContext context) =>
+        app.MapGet("/Movies/{skip:int}/{take:int}", async (AppDbContext context, int skip, int take) =>
         {
             try
             {
-                var movies = await context.Movie.AsNoTracking().ToListAsync();
+                MappingServices mappingService = new();
+
+                var totalCount = await context.Movie.CountAsync();
+
+                var movies = await context.Movie
+                .AsNoTracking()
+                .Skip(skip)
+                .Take(take)
+                .ToListAsync();
 
                 if (movies == null || movies.Count == 0)
                 {
                     return Results.NotFound("no movies found.");
                 }
 
-                return Results.Ok(movies);
+                var characters = await context.Character.ToListAsync();
+                var planets = await context.Planet.ToListAsync();
+                var vehicles = await context.Vehicle.ToListAsync();
+                var starShips = await context.StarShip.ToListAsync();
+
+                var responses = movies.Select(movie => mappingService.MapMovieToResponse(movie, characters, planets, vehicles, starShips));
+              
+                return Results.Ok(new
+                {
+                    totalCount,
+                    skip,
+                    take,
+                    data = responses
+                });
             }
 
             catch (System.Exception ex)
@@ -65,7 +93,6 @@ public static class MovieRoutes
             }
             catch (System.Exception ex)
             {
-
                 throw new Exception("The following error has ocurred: " + ex.Message);
             }
 
@@ -90,7 +117,7 @@ public static class MovieRoutes
                 movieToUpdate.Characters = movieUpdated.Characters;
                 movieToUpdate.Planets = movieUpdated.Planets;
                 movieToUpdate.Vehicles = movieUpdated.Vehicles;
-                movieToUpdate.StarChips = movieUpdated.StarChips;
+                movieToUpdate.StarShips = movieUpdated.StarShips;
 
                 context.Update(movieToUpdate);
 

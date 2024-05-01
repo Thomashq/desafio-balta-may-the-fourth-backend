@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace MayTheFourth.Migrations
+namespace MayTheFourth.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240425000650_AddMovieModel")]
-    partial class AddMovieModel
+    [Migration("20240430193209_CorrectionToFinalBuild")]
+    partial class CorrectionToFinalBuild
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -91,47 +91,46 @@ namespace MayTheFourth.Migrations
 
                     b.Property<string>("Characters")
                         .HasColumnType("TEXT")
-                        .HasColumnName("Characters");
+                        .HasColumnName("characters");
 
                     b.Property<string>("Director")
-                        .IsRequired()
                         .HasColumnType("TEXT")
-                        .HasColumnName("Director");
+                        .HasColumnName("director");
 
                     b.Property<int>("Episode")
                         .HasColumnType("INTEGER")
-                        .HasColumnName("Episode");
+                        .HasColumnName("episode");
 
                     b.Property<string>("OpeningCrawl")
-                        .IsRequired()
                         .HasColumnType("TEXT")
-                        .HasColumnName("OpeningCrawl");
+                        .HasColumnName("openingCrawl");
 
                     b.Property<string>("Planets")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Planets");
-
-                    b.Property<string>("Producer")
                         .IsRequired()
                         .HasColumnType("TEXT")
-                        .HasColumnName("Producer");
+                        .HasColumnName("planets");
+
+                    b.Property<string>("Producer")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("producer");
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("TEXT")
-                        .HasColumnName("ReleaseDate");
+                        .HasColumnName("releaseDate");
 
-                    b.Property<string>("StarChips")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("StarChips");
-
-                    b.Property<string>("Title")
+                    b.Property<string>("StarShips")
                         .IsRequired()
                         .HasColumnType("TEXT")
-                        .HasColumnName("Title");
+                        .HasColumnName("starShips");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("title");
 
                     b.Property<string>("Vehicles")
+                        .IsRequired()
                         .HasColumnType("TEXT")
-                        .HasColumnName("Vehicles");
+                        .HasColumnName("vehicles");
 
                     b.HasKey("Id");
 
@@ -280,6 +279,69 @@ namespace MayTheFourth.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("StarShip");
+                });
+
+            modelBuilder.Entity("MayTheFourth.Models.Vehicle", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("VehicleId");
+
+                    b.Property<string>("CargoCapacity")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("cargoCapacity");
+
+                    b.Property<string>("Consumables")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("consumables");
+
+                    b.Property<double>("CostInCredits")
+                        .HasColumnType("REAL")
+                        .HasColumnName("costInCredits");
+
+                    b.Property<int>("Crew")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("crew");
+
+                    b.Property<string>("Length")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("length");
+
+                    b.Property<string>("Manufacturer")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("manufacturer");
+
+                    b.Property<string>("MaxSpeed")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("maxSpeed");
+
+                    b.Property<int>("Model")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("model");
+
+                    b.Property<string>("Movies")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("movies");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("name");
+
+                    b.Property<int>("Passangers")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("passangers");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Vehicle");
                 });
 #pragma warning restore 612, 618
         }

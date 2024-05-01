@@ -1,7 +1,7 @@
 ﻿using MayTheFourth.Data;
 using MayTheFourth.Domain.Responses;
+using MayTheFourth.Infrastructure.Data.Mapping;
 using MayTheFourth.Models;
-using MayTheFourth.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -17,12 +17,18 @@ public static class PlanetRoutes
 		{
 			try
 			{
+				MappingServices mappingServices = new();
 				var planet = await context.Planet.FindAsync(id);
 
 				if (planet is null)
 					return Results.NotFound("Planet could not be found.");
+				
+				var characters = await context.Character.ToListAsync();
+				var movies = await context.Movie.ToListAsync();
 
-				return Results.Ok(planet);
+				var response = mappingServices.MapPlanetToResponse(planet, characters, movies);
+
+				return Results.Ok(response);
 			}
 			catch(Exception ex)
 			{
@@ -35,7 +41,9 @@ public static class PlanetRoutes
 		{
 			try
 			{
-				var totalCount = await context.Planet.CountAsync();
+                MappingServices mappingServices = new();
+
+                var totalCount = await context.Planet.CountAsync();
 
 				if(totalCount == 0)
 					return Results.NotFound("No Planets found");
@@ -46,12 +54,16 @@ public static class PlanetRoutes
 				.Take(take)
 				.ToListAsync();
 
-				return Results.Ok(new GetPlanetWithPaginationResponse()
+                var characters = await context.Character.ToListAsync();
+                var movies = await context.Movie.ToListAsync();
+
+				var responses = planets.Select(planet => mappingServices.MapPlanetToResponse(planet, characters, movies));
+                return Results.Ok(new
 				{
-					totalCount = totalCount,
-					skip = skip,
-					take = take,
-					data = planets.ToList()
+					totalCount,
+					skip,
+					take,
+					data = responses
 				});
 			}
 			catch(Exception ex)
@@ -60,25 +72,10 @@ public static class PlanetRoutes
 			}
 		}).WithTags("Planets").WithSummary("Get all planets.").WithOpenApi();
 
-		app.MapPost("/Planets", async (AppDbContext context, PlanetRequest planetRequest) =>
+		app.MapPost("/Planets", async (AppDbContext context,  Planet planet) =>
 		{
 			try
 			{
-				var planet = new Planet
-				{
-					Name = planetRequest.Name,
-					Movies = planetRequest.Movies,
-					Characters = planetRequest.Characters,
-					Population = planetRequest.Population,
-					Climate = planetRequest.Climate,
-					Diameter = planetRequest.Diameter,
-					Gravity = planetRequest.Gravity,
-					OrbitalPeriod = planetRequest.OrbitalPeriod,
-					RotationPeriod = planetRequest.RotationPeriod,
-					SurfaceWater = planetRequest.SurfaceWater,
-					Terrain = planetRequest.Terrain
-				};
-
 				await context.Planet.AddAsync(planet);
 
 				await context.SaveChangesAsync();

@@ -2,7 +2,7 @@
 
 namespace MayTheFourth.Response;
 
-public class GetPlanetResponse : BaseModel
+public class GetPlanetResponse
 {
     public string Name { get; set; } = string.Empty;
     public string RotationPeriod { get; set; } = string.Empty;
@@ -13,6 +13,6 @@ public class GetPlanetResponse : BaseModel
     public string Terrain { get; set; } = string.Empty; 
     public string SurfaceWater { get; set; } = string.Empty;
     public string Population { get; set; } = string.Empty;
-    public List<string> Characters { get; set; } = new List<string>();
-    public List<string> Movies { get; set; } = new List<string>();
+    public List<dynamic> Characters { get; set; }
+    public List<dynamic> Movies { get; set; }
 }

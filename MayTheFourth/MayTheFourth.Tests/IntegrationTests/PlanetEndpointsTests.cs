@@ -1,5 +1,6 @@
 ﻿using MayTheFourth.Data;
 using MayTheFourth.Domain.Responses;
+using MayTheFourth.Domain.Utility;
 using MayTheFourth.Models;
 using MayTheFourth.Tests.IntegrationTests.Helpers;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,8 +38,8 @@ public class PlanetEndpointsTests : IClassFixture<TestWebApplicationFactory<Prog
                 Terrain = "Test",
                 SurfaceWater = "Test",
                 Population = "Test",
-                Characters = new List<string>(),
-                Movies = new List<string>(),
+                Characters = new List<ListModel>(),
+                Movies = new List<ListModel>(),
             };
             db.Planet.Add(moqPlanet);
             db.SaveChanges();
