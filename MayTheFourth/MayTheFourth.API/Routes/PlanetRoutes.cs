@@ -1,5 +1,4 @@
 ﻿using MayTheFourth.Data;
-using MayTheFourth.Domain.Responses;
 using MayTheFourth.Infrastructure.Data.Mapping;
 using MayTheFourth.Models;
 using Microsoft.AspNetCore.Mvc;

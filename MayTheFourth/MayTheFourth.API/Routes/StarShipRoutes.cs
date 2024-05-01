@@ -1,11 +1,9 @@
 ﻿using MayTheFourth.Data;
-using MayTheFourth.Domain.Responses;
 using MayTheFourth.Infrastructure.Data.Mapping;
 using MayTheFourth.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Reflection;
 
 namespace MayTheFourth.Routes
